@@ -1,2 +1,3 @@
-# GZGames.jl
-Simple games made with GameZero.jl
+# GZRGames.jl
+
+Suite of simple games made with GameZero.jl
