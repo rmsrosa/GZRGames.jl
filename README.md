@@ -15,3 +15,5 @@ julia> using GameZero
 
 julia> rungame("VirtualPilot/virtualpilot.jl")
 ```
+
+![Virtual Pilot screenshot](VirtualPilot/virtualpilot_screenshot.png)
