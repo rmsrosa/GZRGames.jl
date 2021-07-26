@@ -26,7 +26,7 @@ bricks = [Rect(brkpos[n], 1200, brkpos[n+1]-brkpos[n], -brkht[n]) for n in 1:num
 # Actors
 
 ## Space pod
-space_pod = Actor("fighter_small.png")
+space_pod = Actor("modfighter.png")
 
 ## Lasers
 mutable struct Laser
@@ -87,7 +87,7 @@ function spawn_game()
     num_enemies = 10
     for n in 1:num_enemies
         enemy = Enemy(
-            Actor("enemy.png"), # image
+            Actor("enemyfighter1.png"), # image
             rand(-6:-1), # xvel
             rand(-1:1), # yvel
             rand(1:10), # mobility
@@ -106,7 +106,7 @@ function on_key_down(g::Game, key)
     laser_frames = getfield.(pod_lasers, :frame_fired)
     last_fire = maximum(laser_frames)
     charged = findfirst(iszero, laser_frames)
-    if key == Keys.SPACE && charged !== nothing && frame_num > last_fire + 3
+    if key == Keys.LSHIFT && charged !== nothing && frame_num > last_fire + 3
         pod_lasers[charged].frame_fired = frame_num
         pod_lasers[charged].actor.x = space_pod.x + div(space_pod.w,2)
         pod_lasers[charged].actor.y = space_pod.y + div(3space_pod.h,4)
@@ -116,6 +116,7 @@ function on_key_down(g::Game, key)
         game_state = :playing
         spawn_game()
     end
+    println(key)
 end
 
 function update(g::Game)
