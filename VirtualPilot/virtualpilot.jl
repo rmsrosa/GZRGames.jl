@@ -116,7 +116,7 @@ function on_key_down(g::Game, key)
         game_state = :playing
         spawn_game()
     end
-    println(key)
+    # println(key)
 end
 
 function update(g::Game)
