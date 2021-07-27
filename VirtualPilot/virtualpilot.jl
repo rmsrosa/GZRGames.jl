@@ -65,6 +65,10 @@ loose_text = TextActor(
     #color=colorant"#b08070")
 loose_text.pos = (div(WD, 2) - div(WD, 3), div(HT, 5))
 
+# weighted random function
+weighted_rand(items::AbstractVector, weights::AbstractVector{<:Real}) = 
+    items[findfirst(cumsum(weights)/sum(weights) .> rand())]
+
 # Spawn game
 function spawn_game()
     global space_pod, pod_lasers
@@ -86,12 +90,23 @@ function spawn_game()
     enemies = []
     num_enemies = 10
     for n in 1:num_enemies
+        enemytype = weighted_rand(1:2, [2,1])
+        if enemytype == 1
+            imagefilename = "enemyfighter1.png"
+            xvel = rand(-4:-1)
+            yvel = rand(-1:1)
+            mobility = rand(1:20)
+            health = 5
+        elseif enemytype == 2
+            imagefilename = "enemyfighter2b.png"
+            xvel = rand(-6:-1)
+            yvel = rand(-2:2)
+            mobility = rand(1:5)
+            health = 10
+        end            
         enemy = Enemy(
-            Actor("enemyfighter1.png"), # image
-            rand(-6:-1), # xvel
-            rand(-1:1), # yvel
-            rand(1:10), # mobility
-            5, # health
+            Actor(imagefilename), # image
+            xvel, yvel, mobility, health,
         )
         enemy.actor.x = div(WD,2) + 200*n
         enemy.actor.y = rand(20:20:900)
@@ -169,6 +184,9 @@ function update(g::Game)
             for pod_laser in filter(l -> l.frame_fired > 0, pod_lasers)
                 if collide(enemy.actor, pod_laser.actor) == true
                     enemy.health -= 5
+                    if enemy.health > 0
+                        enemy.actor.image = "enemyfighter2a.png"
+                    end
                     pod_laser.frame_fired = 0
                 end
             end       
