@@ -1,3 +1,4 @@
+using Base: StackFrame
 # Virtual Pilot - made with GameZero.jl
 # by Felipe & Ricardo (rmsrosa@gmail.com)
 # sound effects from https://mixkit.co/free-sound-effects/game/?page=3
@@ -92,7 +93,7 @@ function spawn_game()
     for n in 1:num_enemies
         enemytype = weighted_rand(1:2, [2,1])
         if enemytype == 1
-            imagefilename = "enemyfighter1.png"
+            imagefilename = "enemyfighter4.png"
             xvel = rand(-4:-1)
             yvel = rand(-1:1)
             mobility = rand(1:20)
@@ -178,6 +179,10 @@ function update(g::Game)
             end
         end
         for enemy in filter(x -> x.health > 0, enemies)
+            if enemy.health == 10
+                enemy.actor.image = mod(div(frame_num, 10), 4) == 0 ?
+                    "enemyfighter2a.png" : "enemyfighter2b.png"
+            end
             if collide(enemy.actor, space_pod)
                 game_state = :loose
             end
