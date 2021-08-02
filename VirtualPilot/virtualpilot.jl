@@ -181,7 +181,7 @@ function update(g::Game)
         end
         for enemy in filter(x -> x.health > 0, enemies)
             if enemy.health == 10
-                enemy.actor.image = mod(div(frame_num, 10), 4) == 0 ?
+                enemy.actor.image = mod(div(frame_num, 10), 2) == 0 ?
                     "enemyfighter2a.png" : "enemyfighter2b.png"
             end
             if collide(enemy.actor, space_pod)
@@ -192,7 +192,7 @@ function update(g::Game)
                 if collide(enemy.actor, pod_laser.actor) == true
                     enemy.health -= 5
                     if enemy.health > 0
-                        enemy.actor.image = "enemyfighter2a.png"
+                        enemy.actor.image = "enemyfighter2.png"
                     end
                     pod_laser.frame_fired = 0
                     play_sound("mixkit-shot-light-explosion-1682.wav")
