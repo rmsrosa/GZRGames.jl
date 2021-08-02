@@ -23,3 +23,5 @@ julia> rungame("VirtualPilot/virtualpilot.jl")
 * **Restart game:** Enter key
 
 ![Virtual Pilot screenshot](VirtualPilot/virtualpilot_screenshot.png)
+
+Ships were created with [Inkscape](https://inkscape.org). Sounds were obtained from [mikxkit.co - Free Game Sound Effects](https://mixkit.co/free-sound-effects/game/).

@@ -126,7 +126,8 @@ function on_key_down(g::Game, key)
         pod_lasers[charged].frame_fired = frame_num
         pod_lasers[charged].actor.x = space_pod.x + div(space_pod.w,2)
         pod_lasers[charged].actor.y = space_pod.y + div(3space_pod.h,4)
-        # play_sound("eep")
+        play_sound("mixkit-electronic-retro-block-hit-2185.wav")
+        #play_sound("mixkit-video-game-power-up-3164.wav")
     end
     if game_state != :playing && key == Keys.RETURN
         game_state = :playing
@@ -185,6 +186,7 @@ function update(g::Game)
             end
             if collide(enemy.actor, space_pod)
                 game_state = :loose
+                play_sound("mixkit-explosion-hit-1704.wav")
             end
             for pod_laser in filter(l -> l.frame_fired > 0, pod_lasers)
                 if collide(enemy.actor, pod_laser.actor) == true
@@ -193,6 +195,7 @@ function update(g::Game)
                         enemy.actor.image = "enemyfighter2a.png"
                     end
                     pod_laser.frame_fired = 0
+                    play_sound("mixkit-shot-light-explosion-1682.wav")
                 end
             end       
         end
