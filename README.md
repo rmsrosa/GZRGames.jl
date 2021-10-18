@@ -1,6 +1,6 @@
 # GZRGames.jl
 
-Suite of simple games made with GameZero.jl
+Suite of simple games made with [aviks/GameZero.jl](https://github.com/aviks/GameZero.jl/tree/master/src).
 
 ## Games
 

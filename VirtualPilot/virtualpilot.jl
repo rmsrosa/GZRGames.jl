@@ -11,10 +11,18 @@ BACKGROUND = colorant"#202020"
 
 # background stuff
 
-## grass
-GRASS_COLOR = colorant"#208020"
-grass = rand(1:50, WIDTH)
-grass_pos = 1
+## mountains
+MOUNTAIN_COLOR = colorant"#757575"
+num_peaks = 20
+mntpos = [1; accumulate(+, rand(200:600, num_peaks))]
+mnt_max = mntpos[end]
+mntpeak = rand(600:1000, num_peaks)
+mountains = [
+    Triangle(mntpos[n], 1200,
+    div(mntpos[n] + mntpos[n+1], 2), mntpeak[n],
+    mntpos[n+1], 1200)
+    for n in 1:num_peaks-1
+]
 
 ## blocks
 BRICK_COLOR = colorant"#b08070"
@@ -23,6 +31,11 @@ brkpos = [1; accumulate(+, rand(20:100, num_bricks))]
 brk_max = brkpos[end]
 brkht = rand(10:200, num_bricks)
 bricks = [Rect(brkpos[n], 1200, brkpos[n+1]-brkpos[n], -brkht[n]) for n in 1:num_bricks]
+
+## grass
+GRASS_COLOR = colorant"#208020"
+grass = rand(1:50, WIDTH)
+grass_pos = 1
 
 # Actors
 
@@ -141,13 +154,25 @@ function update(g::Game)
     global grass_pos, enemies, game_state, brk_max
     if game_state == :playing
         frame_num += 1
-        grass_pos += ifelse(grass_pos == 900, -899, 1)
+        if rem(frame_num, 4) == 0
+            for n in eachindex(mountains)
+                mountains[n].p1[1] -= 1
+                mountains[n].p2[1] -= 1
+                mountains[n].p3[1] -= 1
+                if mountains[n].p3[1] < 1
+                    mountains[n].p1[1] += mnt_max
+                    mountains[n].p2[1] += mnt_max
+                    mountains[n].p3[1] += mnt_max
+                end
+            end
+        end
         for n in 1:length(bricks)
             bricks[n].x -= 1
             if bricks[n].x < -100
                 bricks[n].x += brk_max
             end
         end
+        grass_pos += ifelse(grass_pos == 900, -899, 1)
         for enemy in enemies
             if rand(1:100) ≤ enemy.mobility
                 enemy.yvel = -enemy.yvel
@@ -208,6 +233,9 @@ end
 function draw(g::Game)
     if frame_num < 50
         draw(game_name)
+    end
+    for mnt in mountains
+        draw(mnt, MOUNTAIN_COLOR, fill=true)
     end
     for brick in bricks
         draw(brick, BRICK_COLOR, fill=true)
