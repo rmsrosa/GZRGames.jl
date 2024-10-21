@@ -1,8 +1,8 @@
 using Base: StackFrame
 # Virtual Pilot - made with GameZero.jl
 # by Felipe, Daniel & Ricardo (rmsrosa@gmail.com)
-# versão 1.0.1
-# data xxx
+# versão 1.0.0
+# data 18 de outubro de 2021
 # sound effects from https://mixkit.co/free-sound-effects/game/?page=3
 
 WD = 1800 # actual sreen width
@@ -61,21 +61,21 @@ end
 
 ## Info
 game_name = TextActor(
-    "Virtual Pilot", # text
+    "Piloto Virtual", # text
     "moonhouse", # font
     font_size=96)
     #color=colorant"#b08070")
 game_name.pos = (div(WD, 2) - div(WD, 5), div(HT, 10))
 
 win_text = TextActor(
-    "You win!!!", # text
+    "voce venceu!!!", # text
     "moonhouse", # font
     font_size=160)
     #color=colorant"#b08070")
 win_text.pos = (div(WD, 2) - div(WD, 3), div(HT, 5))
 
 loose_text = TextActor(
-    "GAME OVER", # text
+    "Voce perdeu...", # text
     "moonhouse", # font
     font_size=160)
     #color=colorant"#b08070")
@@ -106,7 +106,7 @@ function spawn_game()
     enemies = []
     num_enemies = 10
     for n in 1:num_enemies
-        enemytype = weighted_rand(1:3, [3,2,1])
+        enemytype = weighted_rand(1:2, [2,1])
         if enemytype == 1
             imagefilename = "enemyfighter4.png"
             xvel = rand(-4:-1)
@@ -114,12 +114,6 @@ function spawn_game()
             mobility = rand(1:20)
             health = 5
         elseif enemytype == 2
-            imagefilename = "enemyfighter3.png"
-            xvel = rand(-5:-1)
-            yvel = rand(-1:1)
-            mobility = rand(1:10)
-            health = 5
-        elseif enemytype == 3
             imagefilename = "enemyfighter2b.png"
             xvel = rand(-6:-1)
             yvel = rand(-2:2)
